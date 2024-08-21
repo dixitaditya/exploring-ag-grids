@@ -11,7 +11,11 @@ const TableView = () => {
   const [rowData, setRowData] = useState<any[]>(); // Load your CSV data here
   const [columnDefs, setColumnsDefs] = useState();
 
-  const {tableData, columnFields} = useDataTableContext()
+  const {initTableData,tableData, columnFields, setSelectedTableData} = useDataTableContext()
+
+  useEffect(()=>{
+    initTableData()
+  },[])
 
   useEffect(()=>{
     setRowData(tableData)
@@ -31,6 +35,7 @@ const TableView = () => {
     const getSelectedRows = () => {
         const selectedRows = gridRef.current?.api.getSelectedRows();
         console.log('Selected Rows:', selectedRows);
+        setSelectedTableData(selectedRows)
       };
 
       const gridRef = React.useRef<AgGridReact>(null);

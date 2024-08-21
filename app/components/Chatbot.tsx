@@ -3,34 +3,50 @@ import React, { useState } from 'react';
 import ChatMessage from './ChatMessage';
 import axios from 'axios';
 import styled from 'styled-components';
+import { useConversationContext } from '../contexts/ConversationContext'
+import { useDataTableContext } from '../contexts/DataTableContext';
 
 const Chatbot = () => {
   const [messages, setMessages] = useState<string[]>([]);
   const [input, setInput] = useState('');
 
-  const sendMessage = async () => {
-    const response = await axios.post('/api/message', { content: input });
-    setMessages([...messages, input, response.data.message]);
-    setInput('');
-  };
+  const { conversationPublic, sendMessage } = useConversationContext()
+  const { selectedTableData } = useDataTableContext()
+  console.log("conversationPublic", conversationPublic)
 
+
+
+  const sendMessageHandler = () => {
+    console.log("selectedRows", selectedTableData)
+    sendMessage({
+      conversation_id: conversationPublic.id,
+      content: input,
+      message_context: selectedTableData
+    })
+    setInput("")
+  }
   return (
     <Container>
       <ChatWindow>
-        {messages.map((msg, idx) => (
-          <ChatMessage key={idx} content={msg} />
+        {conversationPublic?.messages?.map((msg, idx) => (
+          <ChatMessage key={msg.id} content={msg.content} role={msg.role} />
         ))}
       </ChatWindow>
       <ChatText>
         <ChatInputContainer>
-          <ChatInput 
-            type="text" 
-            value={input} 
-            onChange={(e) => setInput(e.target.value)} 
+          <ChatInput
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
             placeholder="Type a message..."
+            onKeyUp={(e)=>{
+              if(e.code==="Enter"){
+                sendMessageHandler()
+              }
+            }}
           />
-          <ChatButton onClick={sendMessage}>↑</ChatButton>
-        </ChatInputContainer> 
+          <ChatButton onClick={sendMessageHandler}>↑</ChatButton>
+        </ChatInputContainer>
       </ChatText>
     </Container>
   );
@@ -47,6 +63,8 @@ const Container = styled.div`
 `;
 
 const ChatWindow = styled.div`
+display: flex;
+flex-direction: column;
  flex: 1
 `;
 

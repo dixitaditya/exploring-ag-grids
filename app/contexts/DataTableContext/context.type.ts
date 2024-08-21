@@ -1,7 +1,7 @@
-import {RowData} from "../interfaces/index"
+import {RowData} from "../../interfaces/index"
 
 export type TDataTableContext = {
-    fetchTableData: (key: string)=>void // 
+    initTableData: (key: string)=>void // 
     tableData: Array<RowData> | undefined
     setTableData: (data: Array<RowData>) => void
     selectedTableData?: Array<RowData>

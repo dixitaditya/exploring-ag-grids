@@ -3,9 +3,11 @@ import TableView from './TableView';
 import Chatbot from './Chatbot';
 import styled from 'styled-components';
 import { DataTableContextProvider } from "../contexts/DataTableContext";
+import { ConversationContextProvider } from '../contexts/ConversationContext';
 
 const Layout = () => {
   return (
+    <ConversationContextProvider>
     <DataTableContextProvider>
       <Container>
         <ResizableTableView>
@@ -16,6 +18,7 @@ const Layout = () => {
         </ChatContainer>
       </Container>
     </DataTableContextProvider>
+    </ConversationContextProvider>
   );
 };
 
