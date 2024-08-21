@@ -3,9 +3,11 @@ import TableView from './TableView';
 import Chatbot from './Chatbot';
 import styled from 'styled-components';
 import { DataTableContextProvider } from "../contexts/DataTableContext";
+import { ConversationContextProvider } from '../contexts/ConversationContext';
 
 const Layout = () => {
   return (
+    <ConversationContextProvider>
     <DataTableContextProvider>
       <Container>
         <ResizableTableView>
@@ -16,6 +18,7 @@ const Layout = () => {
         </ChatContainer>
       </Container>
     </DataTableContextProvider>
+    </ConversationContextProvider>
   );
 };
 
@@ -23,7 +26,7 @@ export default Layout;
 
 const Container = styled.div`
   display: flex;
-  height: calc(100vh - 72px); // Adjust this as per your header height
+  height: calc(100vh - 82px); // Adjust this as per your header height
 `;
 
 const ResizableTableView = styled.div`
@@ -38,4 +41,5 @@ const ChatContainer = styled.div`
   flex-grow: 1; /* Allow ChatContainer to take up the remaining space */
   display: flex;
   flex-direction: column;
+  margin:20px 20px 40px;
 `;

@@ -3,34 +3,50 @@ import React, { useState } from 'react';
 import ChatMessage from './ChatMessage';
 import axios from 'axios';
 import styled from 'styled-components';
+import { useConversationContext } from '../contexts/ConversationContext'
+import { useDataTableContext } from '../contexts/DataTableContext';
 
 const Chatbot = () => {
   const [messages, setMessages] = useState<string[]>([]);
   const [input, setInput] = useState('');
 
-  const sendMessage = async () => {
-    const response = await axios.post('/api/message', { content: input });
-    setMessages([...messages, input, response.data.message]);
-    setInput('');
-  };
+  const { conversationPublic, sendMessage } = useConversationContext()
+  const { selectedTableData } = useDataTableContext()
+  console.log("conversationPublic", conversationPublic)
 
+
+
+  const sendMessageHandler = () => {
+    console.log("selectedRows", selectedTableData)
+    sendMessage({
+      conversation_id: conversationPublic.id,
+      content: input,
+      message_context: selectedTableData
+    })
+    setInput("")
+  }
   return (
     <Container>
       <ChatWindow>
-        {messages.map((msg, idx) => (
-          <ChatMessage key={idx} content={msg} />
+        {conversationPublic?.messages?.map((msg, idx) => (
+          <ChatMessage key={msg.id} content={msg.content} role={msg.role} />
         ))}
       </ChatWindow>
       <ChatText>
         <ChatInputContainer>
-          <ChatInput 
-            type="text" 
-            value={input} 
-            onChange={(e) => setInput(e.target.value)} 
-            placeholder="Type a message..."
+          <ChatInput
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Ask a79..."
+            onKeyUp={(e)=>{
+              if(e.code==="Enter"){
+                sendMessageHandler()
+              }
+            }}
           />
-          <ChatButton onClick={sendMessage}>↑</ChatButton>
-        </ChatInputContainer> 
+          <ChatButton onClick={sendMessageHandler}>↑</ChatButton>
+        </ChatInputContainer>
       </ChatText>
     </Container>
   );
@@ -42,17 +58,20 @@ export default Chatbot;
 const Container = styled.div`
   display: flex;
   height: 100%;
-  background:#1f2936 ;
   flex-direction: column;
 `;
 
 const ChatWindow = styled.div`
+display: flex;
+flex-direction: column;
  flex: 1
 `;
 
 const ChatInputContainer = styled.div`
-   display: flex;
+  //  display: flex;
    width: 100%;
+   position: relative;
+   width: 100%
 `
 
 const ChatText = styled.div`
@@ -61,18 +80,24 @@ color: #333;
 `;
 
 const ChatInput = styled.input`
-flex:1;
-padding: 10px;
+width: 100%;
+padding: 16px 40px 16px 10px;
+background: #1c1b26;
+color: #fff;
 `;
 
 const ChatButton = styled.button`
 color: #fff;
-width: 44px;
-height: 44px;
+width: 38px;
+height: 38px;
+position: absolute;
+top:10px;
+right: 20px;
 display:flex;
 align-items: center;
 justify-content: center;
 background: #3f1ca2;
+border-radius: 5px;
 `;
 
 
