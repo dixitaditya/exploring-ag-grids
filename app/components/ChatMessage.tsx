@@ -19,10 +19,10 @@ const ChatMessage = ({ content, role }: ChatMessageProps) => {
   return (
     <div className={`chat-message ${role === 'user' ? userStyles : botStyles} m-2 relative`}>
       {content}
-      <FaRegCopy
+      {role === 'assistant' && <FaRegCopy
     className="absolute -right-10 bottom-1 cursor-pointer text-white hover:text-gray-400"
     onClick={handleCopyClick}
-  />
+  />}
     </div>
    
   );

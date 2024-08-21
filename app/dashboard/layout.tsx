@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import {inter} from "../fonts/Inter"
 import "../globals.css";
+import NavBar from "../../app/components/NavBar"
 
 
 export const metadata: Metadata = {
@@ -14,6 +15,10 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }>) {
   return (
+    <>
+          <NavBar/>
       <div className={`${inter.className}`}>{children}</div>
+
+          </>
   );
 }

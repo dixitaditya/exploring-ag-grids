@@ -6,7 +6,8 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
-  --background-quartz: #1f2936
+  --background-quartz: #1f2936;
+  --background-a79: #0d0e11;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -14,13 +15,14 @@
     --foreground-rgb: 255, 255, 255;
     --background-start-rgb: 0, 0, 0;
     --background-end-rgb: 0, 0, 0;
-    --background-quartz: #1f2936
+    --background-quartz: #1f2936;
+    --background-a79: #0d0e11;
   }
 }
 
 body {
   color: rgb(var(--foreground-rgb));
-  background-color: var(--background-quartz);
+  background-color: var(--background-a79);
 }
 
 @layer utilities {
