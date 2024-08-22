@@ -19,7 +19,7 @@ export const addMessage = (message: MessagePublic) => {
 
   const conversation = conversations.find(conv => conv.id === message.conversation_id);
   if (conversation) {
-    conversation.messages.push(message);
+    conversation.messages?.push(message);
   }
 };
 

@@ -3,7 +3,7 @@ import { FaRegCopy } from 'react-icons/fa';
 
 interface ChatMessageProps {
   content: string;
-  role: 'user' | 'assistant';
+  role: string;
 }
 
 const ChatMessage = ({ content, role }: ChatMessageProps) => {

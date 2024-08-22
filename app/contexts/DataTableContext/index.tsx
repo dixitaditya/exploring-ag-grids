@@ -8,8 +8,11 @@ import { RowData } from '../../interfaces'
 const DataTableContext = React.createContext({})
 DataTableContext.displayName = 'DataTableContext'
 
+type TDataTableContextProviderProps = {
+  children: React.ReactNode;
+}
 
-const DataTableContextProvider: React.FC = ({ children }) => {
+const DataTableContextProvider: React.FC<TDataTableContextProviderProps> = ({ children }) => {
   const [rowData, setRowData] = useState<RowData[]>(RowDatum); // Load your CSV data here
   const [selectedTableData, setSelectedTableData] = useState<RowData[]>(); // Load your CSV data here
   const [columnDefs, setColumnsDefs] = useState(fields);
