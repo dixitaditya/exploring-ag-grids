@@ -4,7 +4,7 @@ import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-quartz.css';
 import {useDataTableContext} from "../contexts/DataTableContext"
-import _ from "lodash"
+import {intersection} from "lodash"
 
 
 const TableView = () => {
@@ -16,7 +16,6 @@ const TableView = () => {
   const [filterChips, setFilterChips] = useState<string[]>([]);
 
   useEffect(()=>{
-    console.log("🌕🌕🌕🌕🌕🌕🌕🌕")
     initTableData()
   },[initTableData])
 
@@ -28,50 +27,20 @@ const TableView = () => {
     setColumnsDefs(columnFields)
   },[columnFields])
 
-  console.log("rowData",rowData)
-  console.log("columnDefs",columnDefs)
-
-  
-
-
-    // Function to handle selected rows
-    const getSelectedRows = () => {
-        const selectedRows = gridRef.current?.api.getSelectedRows();
-        console.log('Selected Rows:', selectedRows);
-        setSelectedTableData(selectedRows)
-      };
-
 
   const gridRef = React.useRef<AgGridReact>(null);
 
   const rowSelection = 'multiple';
 
 
-  const deselectAllRows = () => {
-    gridRef.current?.api.deselectAll();
-    setSelectedTableData([]); // Optionally clear the selected data state
-  };
-
-  const updateSelectedRowsAfterFilter = () => {
-    // Get all the currently visible rows after filtering
-    console.log('updateSelectedRowsAfterFilter called------ :');
-    const filteredRows = gridRef.current?.api.getRenderedNodes().map(node => node.data);
-    console.log('Filtered Rows:', filteredRows);
-    setSelectedTableData(filteredRows);
-  };
-
-
   const updateFilteredSelectedRow = () => {
     // Get all the currently visible rows after filtering
-    console.log('updateSelectedRowsAfterFilter called------ :');
     const selectedRows = gridRef.current?.api.getSelectedRows();
     const filteredRows = gridRef.current?.api.getRenderedNodes().map(node => node.data);
-    const selectedRowsAfterFilter = _.intersection(selectedRows, filteredRows)
+    const selectedRowsAfterFilter = intersection(selectedRows, filteredRows)
     if(selectedRowsAfterFilter.length){
       setSelectedTableData(selectedRowsAfterFilter);
-      console.log('Filtered Rows:', selectedRowsAfterFilter);
     }else{
-      console.log('Filtered Rows:', filteredRows);
       setSelectedTableData(filteredRows);
     }
   };
@@ -84,7 +53,6 @@ const TableView = () => {
     <div className="p-4 py-12 text-lg font-bold">
         Table Name 123
     </div>
-    <button onClick={deselectAllRows}>deselect</button>
     <div className="p-4 flex flex-wrap gap-2">
           {filterChips?.map((chip, index) => (
             <div key={index} className="bg-gray-200 px-2 py-1 rounded text-sm">

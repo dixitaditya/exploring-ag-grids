@@ -8,3 +8,8 @@ export type TDataTableContext = {
     setSelectedTableData:  (data: Array<RowData>) => void
     columnFields: Array<any>
 }
+
+
+export type TDataTableContextProviderProps = {
+    children: React.ReactNode;
+  }
