@@ -1,31 +1,39 @@
-import React, {useEffect, useRef, useState} from 'react'
-import {TDataTableContext} from "./context.type"
+import React, {useCallback, useEffect, useRef, useState} from 'react'
+import {TDataTableContext, TDataTableContextProviderProps} from "./context.type"
 import {RowDatum} from "../../utils/rowDataum"
 import {fields} from "../../utils/fields"
 import { RowData } from '../../interfaces'
 
 
+/**
+ * Context for managing data table state and operations.
+ */
+
 const DataTableContext = React.createContext({})
 DataTableContext.displayName = 'DataTableContext'
 
-type TDataTableContextProviderProps = {
-  children: React.ReactNode;
-}
+
+/**
+ * Provider component for data table context.
+ */
 
 const DataTableContextProvider: React.FC<TDataTableContextProviderProps> = ({ children }) => {
   const [rowData, setRowData] = useState<RowData[]>(RowDatum); // Load your CSV data here
   const [selectedTableData, setSelectedTableData] = useState<RowData[]>(); // Load your CSV data here
   const [columnDefs, setColumnsDefs] = useState(fields);
 
-  const initTableData = () => {
-    console.log("initTableData")
-    setRowData(RowDatum) // from dummy, can be relaced with axios
+
+  /**
+   * Initializes table data and column definitions.
+   * This can be replaced with data fetching logic.
+   */
+  const initTableData = useCallback(() => {
+    setRowData(RowDatum)
     setSelectedTableData(RowDatum)
     setColumnsDefs(fields)
     return RowDatum
-  }
-
-
+  },[])
+  
   const contextObject: TDataTableContext = {
     initTableData,
     tableData: rowData,
@@ -41,6 +49,14 @@ const DataTableContextProvider: React.FC<TDataTableContextProviderProps> = ({ ch
   )
 }
 
+
+/**
+ * Hook to use data table context.
+ * 
+ * @returns The context value.
+ * @throws Will throw an error if used outside of a DataTableContextProvider.
+ */
+
 const useDataTableContext =
   (): any => {
     const context = React.useContext(DataTableContext)
@@ -53,4 +69,6 @@ const useDataTableContext =
     return context as TDataTableContext
   }
 
+
+  
 export {DataTableContextProvider, useDataTableContext}

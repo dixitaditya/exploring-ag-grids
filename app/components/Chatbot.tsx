@@ -13,18 +13,18 @@ const Chatbot = () => {
 
   const { conversationPublic, sendMessage } = useConversationContext()
   const { selectedTableData } = useDataTableContext()
-  console.log("conversationPublic", conversationPublic)
-
 
 
   const sendMessageHandler = () => {
-    console.log("selectedRows", selectedTableData)
-    sendMessage({
-      conversation_id: conversationPublic.id,
-      content: input,
-      message_context: selectedTableData
-    })
-    setInput("")
+    if(selectedTableData){
+      sendMessage({
+        conversation_id: conversationPublic.id,
+        content: input,
+        message_context: selectedTableData
+      })
+      setInput("")
+    }
+    
   }
   return (
     <Container>

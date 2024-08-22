@@ -99,8 +99,6 @@ const ConversationContextProvider: React.FC<ConversationContextProviderProps> = 
         messages: state.messages?.filter(msg => msg.id !== tempId),
       }));
     }
-  
-    console.log("conversationPublic======>", conversationPublic);
   };
   
 
