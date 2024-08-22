@@ -9,8 +9,6 @@ export interface RowData {
     bankBalance: number;
   }
 
-  
-
 
 export interface CustomColDef extends ColDef {
   headerName?: string;

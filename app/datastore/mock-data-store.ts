@@ -6,7 +6,8 @@ let messageIdCounter = 1;
 let conversationIdCounter = 1;
 
 const messages: MessagePublic[] = [];
-const conversations: ConversationPublic[] = [
+
+export const conversations: ConversationPublic[] = [
   {
     name: 'Default Conversation',
     id: conversationIdCounter++, // Start with a default conversation

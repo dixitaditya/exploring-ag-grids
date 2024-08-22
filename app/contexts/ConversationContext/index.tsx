@@ -7,32 +7,37 @@ import _ from "lodash"
 
 import {ConversationPublic, MessageCreate, MessagePublic} from "../../interfaces"
 
+import {conversations} from "../../datastore/mock-data-store"
 
+
+/**
+ * Context for managing conversation state and operations.
+ */
 const ConversationContext = React.createContext({})
 ConversationContext.displayName = 'ConversationContext'
 
 
-const dummyChat = {
-    "name": "Default Conversation",
-    "id": 1,
-    "messages": [
-    ]
-}
-
+/**
+ * Provider component for conversation context.
+ * 
+ * @param props - The props for the provider component, including children elements.
+ */
 type ConversationContextProviderProps = {
   children: React.ReactNode;
 }
 const ConversationContextProvider: React.FC<ConversationContextProviderProps> = ({ children }) => {
-  const [conversationPublic, setConversationPublic] = useState<ConversationPublic>(dummyChat); // Load your CSV data here
+  const [conversationPublic, setConversationPublic] = useState<ConversationPublic>(conversations[0]); // Load your CSV data here
  
 
-  const fetchTableData = () => {
-    // setRowData(RowDatum) // from dummy, can be relaced with axios
-    // setColumnsDefs(fields)
-    // return RowDatum
-  }
-
-
+  /**
+   * Sends a message and updates the conversation state.
+   * 
+   * @param msgCreateObj - The message to send.
+   * 
+   * Optimistically updates the conversation state with the new message,
+   * then sends the message to the server. If the server responds with an error,
+   * the optimistic message is removed from the state.
+   */
   const sendMessage = async (msgCreateObj: MessageCreate) => {
     const tempId = Date.now();
   
@@ -54,7 +59,6 @@ const ConversationContextProvider: React.FC<ConversationContextProviderProps> = 
           messages: [...(state.messages ?? []), newMessage],
         };
       } else {
-        // Handle the case where state is undefined, initializing a new conversation object
         return {
           name: 'New Conversation',
           id: 1,
@@ -80,9 +84,7 @@ const ConversationContextProvider: React.FC<ConversationContextProviderProps> = 
       const messagePublic: MessagePublic = await response.json();
   
       // Update the state with the server response
-      setConversationPublic((state) => {
-        // const messageIndex = state.messages.findIndex(msg => msg.id === tempId);
-        
+      setConversationPublic((state) => {        
         return {
             ...state,
             messages: [...(state.messages ?? []), messagePublic],
@@ -113,6 +115,14 @@ const ConversationContextProvider: React.FC<ConversationContextProviderProps> = 
   )
 }
 
+
+
+/**
+ * Hook to use conversation context.
+ * 
+ * @returns The context value.
+ * @throws Will throw an error if used outside of a ConversationContextProvider.
+ */
 const useConversationContext =
   (): any => {
     const context = React.useContext(ConversationContext)

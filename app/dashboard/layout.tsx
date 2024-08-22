@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import {inter} from "../fonts/inter"
+import { inter } from "../fonts/inter"
 import "../globals.css";
 import NavBar from "../../app/components/NavBar"
 
@@ -16,9 +16,8 @@ export default function DashboardLayout({
 }>) {
   return (
     <>
-          <NavBar/>
+      <NavBar />
       <div className={`${inter.className}`}>{children}</div>
-
-          </>
+    </>
   );
 }
