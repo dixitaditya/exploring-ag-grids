@@ -1,4 +1,4 @@
-"use client";  // Mark this as a client component
+"use client";
 import React, { useEffect, useState } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';

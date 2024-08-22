@@ -1,4 +1,4 @@
-"use client";  // Mark this as a client component
+"use client";
 import Layout from '../components/Dashboard';
 
 export default function DashboardPage() {

@@ -1,7 +1,7 @@
 import { SetFilterModule } from "@ag-grid-enterprise/set-filter";
 import { ModuleRegistry } from "@ag-grid-community/core";
 ModuleRegistry.registerModules([
-  SetFilterModule,
+  SetFilterModule, // this wont work for ag-grid community
 ]);
 
 // checkboxSelection: true 

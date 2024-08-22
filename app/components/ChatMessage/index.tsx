@@ -1,14 +1,11 @@
 import React from 'react';
 import { FaRegCopy } from 'react-icons/fa';
+import {userStyles, botStyles} from './style.tailwind'
+import {ChatMessageProps} from "./type"
 
-interface ChatMessageProps {
-  content: string;
-  role: string;
-}
 
 const ChatMessage = ({ content, role }: ChatMessageProps) => {
-  const userStyles = "bg-gray-700 text-white rounded-lg p-3 max-w-xs self-end";
-  const botStyles = "bg-blue-800 text-white rounded-lg p-3 max-w-xs self-start";
+
 
   const handleCopyClick = () => {
     navigator.clipboard.writeText(content);
