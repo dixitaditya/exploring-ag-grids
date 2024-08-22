@@ -4,5 +4,5 @@ export const fields = [
     { field: "language", headerName: "Language" },
     { field: "games", headerName: "Games" },
     { field: "gameName", headerName: "Game Name" },
-    { field: "bankBalance", headerName: "Bank Balance", valueFormatter: params => `$${params.value.toFixed(2)}`, filter: 'agNumberColumnFilter'  },
+    { field: "bankBalance", headerName: "Bank Balance", valueFormatter: (params:Record<string,any>) => `$${params.value.toFixed(2)}`, filter: 'agNumberColumnFilter'  },
   ]

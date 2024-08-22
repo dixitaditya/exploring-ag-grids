@@ -19,8 +19,11 @@ const dummyChat = {
     ]
 }
 
-const ConversationContextProvider: React.FC = ({ children }) => {
-  const [conversationPublic, setConversationPublic] = useState<ConversationPublic | undefined>(dummyChat); // Load your CSV data here
+type ConversationContextProviderProps = {
+  children: React.ReactNode;
+}
+const ConversationContextProvider: React.FC<ConversationContextProviderProps> = ({ children }) => {
+  const [conversationPublic, setConversationPublic] = useState<ConversationPublic>(dummyChat); // Load your CSV data here
  
 
   const fetchTableData = () => {
@@ -34,7 +37,7 @@ const ConversationContextProvider: React.FC = ({ children }) => {
     const tempId = Date.now();
   
     // Optimistically add the message to the state
-    setConversationPublic((state) => {
+    setConversationPublic((state: ConversationPublic) => {
       const newMessage: MessagePublic = {
         id: tempId,
         content: msgCreateObj.content,
@@ -48,7 +51,7 @@ const ConversationContextProvider: React.FC = ({ children }) => {
       if (state) {
         return {
           ...state,
-          messages: [...state.messages, newMessage],
+          messages: [...(state.messages ?? []), newMessage],
         };
       } else {
         // Handle the case where state is undefined, initializing a new conversation object
@@ -82,7 +85,7 @@ const ConversationContextProvider: React.FC = ({ children }) => {
         
         return {
             ...state,
-            messages: [...state.messages, messagePublic],
+            messages: [...(state.messages ?? []), messagePublic],
           }
 
       });
@@ -93,7 +96,7 @@ const ConversationContextProvider: React.FC = ({ children }) => {
       // Optionally, handle the error by removing the optimistic message or showing an error to the user
       setConversationPublic((state) => ({
         ...state,
-        messages: state.messages.filter(msg => msg.id !== tempId),
+        messages: state.messages?.filter(msg => msg.id !== tempId),
       }));
     }
   

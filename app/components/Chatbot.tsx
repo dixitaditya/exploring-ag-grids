@@ -5,6 +5,7 @@ import axios from 'axios';
 import styled from 'styled-components';
 import { useConversationContext } from '../contexts/ConversationContext'
 import { useDataTableContext } from '../contexts/DataTableContext';
+import {MessagePublic} from "../interfaces"
 
 const Chatbot = () => {
   const [messages, setMessages] = useState<string[]>([]);
@@ -28,8 +29,8 @@ const Chatbot = () => {
   return (
     <Container>
       <ChatWindow>
-        {conversationPublic?.messages?.map((msg, idx) => (
-          <ChatMessage key={msg.id} content={msg.content} role={msg.role} />
+        {conversationPublic?.messages?.map((msg: MessagePublic) => (
+          <ChatMessage key={msg.id} content={msg.content} role={msg.role || ''} />
         ))}
       </ChatWindow>
       <ChatText>

@@ -15,7 +15,7 @@ const TableView = () => {
 
   useEffect(()=>{
     initTableData()
-  },[])
+  },[initTableData])
 
   useEffect(()=>{
     setRowData(tableData)

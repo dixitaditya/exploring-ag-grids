@@ -42,7 +42,7 @@ export interface ConversationPublic {
     role?: string;              // Optional role associated with the message (e.g., user, bot).
     conversation_id?: number;   // Optional ID of the conversation this message is part of.
     id: number;                 // A unique identifier for the message.
-    message_context: MessageContextPayload; // The context for the message, including additional data if any.
+    message_context?: MessageContextPayload; // The context for the message, including additional data if any.
   }
   
   

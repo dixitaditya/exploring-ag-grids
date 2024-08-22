@@ -1,4 +1,5 @@
 // utils/api.ts
+import {MessagePublic, ConversationPublic} from "../interfaces"
 
 export const createMessage = async (message: MessageCreate): Promise<MessagePublic> => {
     return {
@@ -7,7 +8,7 @@ export const createMessage = async (message: MessageCreate): Promise<MessagePubl
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
       conversation_id: message.conversation_id,
-      message_context: message.message_context,
+      message_context: message.message_context ,
     };
   };
   
