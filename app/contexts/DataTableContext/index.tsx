@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react'
+import React, {useCallback, useEffect, useRef, useState} from 'react'
 import {TDataTableContext} from "./context.type"
 import {RowDatum} from "../../utils/rowDataum"
 import {fields} from "../../utils/fields"
@@ -17,13 +17,18 @@ const DataTableContextProvider: React.FC<TDataTableContextProviderProps> = ({ ch
   const [selectedTableData, setSelectedTableData] = useState<RowData[]>(); // Load your CSV data here
   const [columnDefs, setColumnsDefs] = useState(fields);
 
-  const initTableData = () => {
+  const initTableData = useCallback(() => {
     console.log("initTableData")
     setRowData(RowDatum) // from dummy, can be relaced with axios
     setSelectedTableData(RowDatum)
     setColumnsDefs(fields)
     return RowDatum
-  }
+  },[])
+  
+
+  useEffect(()=>{
+    console.log("DataTableContextProvider-------",selectedTableData)
+  },[selectedTableData])
 
 
   const contextObject: TDataTableContext = {
