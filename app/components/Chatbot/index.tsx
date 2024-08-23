@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import ChatMessage from '../ChatMessage';
 import {Container,ChatWindow,ChatText,ChatInputContainer,ChatInput,ChatButton } from "./style.styled"
 
@@ -7,13 +7,25 @@ import { useConversationContext } from '../../contexts/ConversationContext'
 import { useDataTableContext } from '../../contexts/DataTableContext';
 import {MessagePublic} from "../../interfaces"
 
+
+type TChatContainerRef = {
+  current: HTMLDivElement | null
+}
 const Chatbot = () => {
   const [messages, setMessages] = useState<string[]>([]);
   const [input, setInput] = useState('');
 
+  const chatContainerRef: TChatContainerRef = useRef(null);
+
   const { conversationPublic, sendMessage } = useConversationContext()
   const { selectedTableData } = useDataTableContext()
 
+
+  const scrollToBottom = () => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+  };
 
   const sendMessageHandler = () => {
     if(selectedTableData){
@@ -26,9 +38,16 @@ const Chatbot = () => {
     }
     
   }
+
+  useEffect(()=>{
+    // UX improvement
+    scrollToBottom()
+  },[conversationPublic])
+
+
   return (
     <Container>
-      <ChatWindow>
+      <ChatWindow ref={chatContainerRef}>
         {conversationPublic?.messages?.map((msg: MessagePublic) => (
           <ChatMessage key={msg.id} content={msg.content} role={msg.role || ''} />
         ))}
