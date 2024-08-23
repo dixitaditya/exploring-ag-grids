@@ -4,19 +4,24 @@ export const Container = styled.div`
   display: flex;
   height: 100%;
   flex-direction: column;
+  margin-bottom: 100px;
+     position: relative;
 `;
 
 export const ChatWindow = styled.div`
 display: flex;
 flex-direction: column;
- flex: 1
+ flex: 1;
+  max-height: calc(100vh - 300px);
+  padding-bottom: 50px;
+  overflow: auto;
 `;
 
 export const ChatInputContainer = styled.div`
   //  display: flex;
    width: 100%;
-   position: relative;
-   width: 100%
+   position: absolute;
+   top: 75vh;
 `
 
 export const ChatText = styled.div`
