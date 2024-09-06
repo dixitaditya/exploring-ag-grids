@@ -13,7 +13,7 @@ const File = (props:any) => {
     const handleOnChange =()=> {
         console.log("handleOnChange")
         setIsChecked(state=>!state)
-        handleClick(data?.name)
+        handleClick
     }
     return (
         <div>file: 
