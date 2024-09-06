@@ -14,7 +14,7 @@ const Tree = (props: any) => {
         {item.name}
         {item.type === "folder" && (
           <div>
-            {item.children.map((child) => (
+            {item.children.map((child:any) => (
               <Tree key={child.id} item={child} />
             ))}
           </div>

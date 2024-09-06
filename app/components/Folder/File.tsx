@@ -1,9 +1,15 @@
 import React, {useState,useEffect} from "react"
 
 
+type TFile = {
+    data: any;
+    isSelected: boolean;
+    handleClick: ()=> void
+}
+
 const File = (props:any) => {
     const {data, isSelected, handleClick} = props
-    const [isChecked, setIsChecked] = useState(isSelected)
+    const [isChecked, setIsChecked] = useState<boolean>(isSelected)
 
 
     useEffect(()=>{
@@ -13,7 +19,7 @@ const File = (props:any) => {
     const handleOnChange =()=> {
         console.log("handleOnChange")
         setIsChecked(state=>!state)
-        handleClick
+        handleClick()
     }
     return (
         <div>file: 

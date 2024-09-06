@@ -7,7 +7,6 @@ import Chatbot from '../Chatbot';
 
 const FolderDemo = () => {
     const {data,handleSubmit} = useFolderDataContext()
-    console.log("data", data)
     return (
      <>
       
@@ -15,7 +14,7 @@ const FolderDemo = () => {
   <Container>
     <ResizableTableView>
       <div style={{marginTop: 50}}>
-      {data?.map((item) => (
+      {data?.map((item:any) => (
         <Tree key={item.id} item={item} />
       ))}
       <button 

@@ -1,11 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { TFolderContext } from "./context.type";
+import React, { useState, ReactNode } from 'react';
+import { TFolderContext, FolderItem } from "./context.type";
 import initialData from "./folder.json";
 
 /**
  * Context for managing folder data and operations.
  */
-const FolderDataContext = React.createContext({} as TFolderContext);
+const FolderDataContext = React.createContext<TFolderContext | undefined>(undefined);
 FolderDataContext.displayName = 'FolderDataContext';
 
 /**
@@ -14,24 +14,24 @@ FolderDataContext.displayName = 'FolderDataContext';
  * @param props - The props for the provider component, including children elements.
  */
 type FolderDataProviderProps = {
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 const FolderDataProvider: React.FC<FolderDataProviderProps> = ({ children }) => {
-  const [folderData, setFolderData] = useState(initialData);
+  const [folderData, setFolderData] = useState<FolderItem[]>(initialData);
 
   const toggleItemSelection = (itemId: string) => {
-    const updateItems = (items) => {
+    const updateItems = (items: FolderItem[]): FolderItem[] => {
       return items.map((item) => {
         if (item.id === itemId) {
           const newSelection = !item.selected;
-          if (item.type === "folder") {
-            const updateChildItems = (children) =>
+          if (item.type === "folder" && item.children) {
+            const updateChildItems = (children: FolderItem[]): FolderItem[] =>
               children.map((child) => ({
                 ...child,
                 selected: newSelection,
                 ...(child.type === "folder" && {
-                  children: updateChildItems(child.children),
+                  children: child.children ? updateChildItems(child.children):[],
                 }),
               }));
             return {
@@ -62,8 +62,8 @@ const FolderDataProvider: React.FC<FolderDataProviderProps> = ({ children }) => 
     setFolderData((prevData) => updateItems(prevData));
   };
 
-  const fetchSelectedItems = () => {
-    const gatherSelected = (items) => {
+  const fetchSelectedItems = (): { id: string; name: string; type: string }[] => {
+    const gatherSelected = (items: FolderItem[]): { id: string; name: string; type: string }[] => {
       return items.reduce((result, item) => {
         if (item.selected) {
           result.push({ id: item.id, name: item.name, type: item.type });
@@ -72,7 +72,7 @@ const FolderDataProvider: React.FC<FolderDataProviderProps> = ({ children }) => 
           result = result.concat(gatherSelected(item.children));
         }
         return result;
-      }, []);
+      }, [] as { id: string; name: string; type: string }[]);
     };
 
     return gatherSelected(folderData);
@@ -83,12 +83,11 @@ const FolderDataProvider: React.FC<FolderDataProviderProps> = ({ children }) => 
     console.log("Selected Items:", selectedItems);
     // Send selectedItems to the backend
   };
-  
 
   const contextValue: TFolderContext = {
     data: folderData,
     setData: setFolderData,
-    toggleSelect:toggleItemSelection,
+    toggleSelect: toggleItemSelection,
     fetchSelectedItems,
     handleSubmit,
   };
