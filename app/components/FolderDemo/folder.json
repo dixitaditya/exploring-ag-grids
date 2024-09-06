@@ -1,0 +1,36 @@
+[
+    {
+      "name": "folder 1",
+      "type": "folder",
+      "isSelected": false,
+      "items": [
+        {
+          "name": "file 1",
+          "type": "file",
+          "isSelected": true
+        },
+        {
+          "name": "file 2",
+          "type": "file",
+          "isSelected": false
+        },
+        {
+          "name": "folder 2",
+          "type": "folder",
+          "isSelected": false,
+          "items": [
+            {
+              "name": "file 3",
+              "type": "file",
+              "isSelected": false
+            },
+            {
+              "name": "file 4",
+              "type": "file",
+              "isSelected": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
